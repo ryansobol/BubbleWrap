@@ -15,10 +15,6 @@ shared "an instance with no options" do
     @subject.delegate.should.equal(@subject)
   end
 
-  it "has no clicked button" do
-    @subject.clicked_button.should.be.nil
-  end
-
   it "has no will_present handler" do
     @subject.will_present.should.be.nil
   end
@@ -58,10 +54,6 @@ shared "an instance with a full set of options" do
   it "has the correct buttons" do
     @subject.numberOfButtons.should.equal(1)
     @subject.buttonTitleAtIndex(0).should.equal(@options[:buttons])
-  end
-
-  it "has no clicked button" do
-    @subject.clicked_button.should.be.nil
   end
 
   it "has no will_present handler" do
@@ -321,7 +313,6 @@ describe BW::UIActionSheet do
       before do
         @subject.will_present do |sheet|
           sheet.should.equal(@subject)
-          sheet.clicked_button.should.be.nil
           :will_present
         end
       end
@@ -351,7 +342,6 @@ describe BW::UIActionSheet do
       before do
         @subject.did_present do |sheet|
           sheet.should.equal(@subject)
-          sheet.clicked_button.should.be.nil
           :did_present
         end
       end
@@ -381,7 +371,6 @@ describe BW::UIActionSheet do
       before do
         @subject.on_system_cancel do |sheet|
           sheet.should.equal(@subject)
-          sheet.clicked_button.should.be.nil
           :on_system_cancel
         end
       end
@@ -411,12 +400,12 @@ describe BW::UIActionSheet do
 
     describe "given an on_click handler" do
       before do
-        @subject.on_click do |sheet|
+        @subject.on_click do |sheet, button|
           sheet.should.equal(@subject)
-          sheet.clicked_button.should.not.be.nil
-          sheet.clicked_button.index.should.equal(@index)
-          sheet.clicked_button.title.should.equal(@button)
-          sheet.clicked_button.should.not.be.cancel
+          button.should.not.be.nil
+          button.index.should.equal(@index)
+          button.title.should.equal(@button)
+          button.should.not.be.cancel
           :on_click
         end
       end
@@ -432,12 +421,12 @@ describe BW::UIActionSheet do
       before do
         @subject.cancel_button_index = @index
 
-        @subject.on_click do |sheet|
+        @subject.on_click do |sheet, button|
           sheet.should.equal(@subject)
-          sheet.clicked_button.should.not.be.nil
-          sheet.clicked_button.index.should.equal(@index)
-          sheet.clicked_button.title.should.equal(@button)
-          sheet.clicked_button.should.be.cancel
+          button.should.not.be.nil
+          button.index.should.equal(@index)
+          button.title.should.equal(@button)
+          button.should.be.cancel
           :on_click
         end
       end
@@ -467,12 +456,12 @@ describe BW::UIActionSheet do
 
     describe "given a will_dismiss handler" do
       before do
-        @subject.will_dismiss do |sheet|
+        @subject.will_dismiss do |sheet, button|
           sheet.should.equal(@subject)
-          sheet.clicked_button.should.not.be.nil
-          sheet.clicked_button.index.should.equal(@index)
-          sheet.clicked_button.title.should.equal(@button)
-          sheet.clicked_button.should.not.be.cancel
+          button.should.not.be.nil
+          button.index.should.equal(@index)
+          button.title.should.equal(@button)
+          button.should.not.be.cancel
           :will_dismiss
         end
       end
@@ -488,12 +477,12 @@ describe BW::UIActionSheet do
       before do
         @subject.cancel_button_index = @index
 
-        @subject.will_dismiss do |sheet|
+        @subject.will_dismiss do |sheet, button|
           sheet.should.equal(@subject)
-          sheet.clicked_button.should.not.be.nil
-          sheet.clicked_button.index.should.equal(@index)
-          sheet.clicked_button.title.should.equal(@button)
-          sheet.clicked_button.should.be.cancel
+          button.should.not.be.nil
+          button.index.should.equal(@index)
+          button.title.should.equal(@button)
+          button.should.be.cancel
           :will_dismiss
         end
       end
@@ -523,12 +512,12 @@ describe BW::UIActionSheet do
 
     describe "given a did_dismiss handler" do
       before do
-        @subject.did_dismiss do |sheet|
+        @subject.did_dismiss do |sheet, button|
           sheet.should.equal(@subject)
-          sheet.clicked_button.should.not.be.nil
-          sheet.clicked_button.index.should.equal(@index)
-          sheet.clicked_button.title.should.equal(@button)
-          sheet.clicked_button.should.not.be.cancel
+          button.should.not.be.nil
+          button.index.should.equal(@index)
+          button.title.should.equal(@button)
+          button.should.not.be.cancel
           :did_dismiss
         end
       end
@@ -544,12 +533,12 @@ describe BW::UIActionSheet do
       before do
         @subject.cancel_button_index = @index
 
-        @subject.did_dismiss do |sheet|
+        @subject.did_dismiss do |sheet, button|
           sheet.should.equal(@subject)
-          sheet.clicked_button.should.not.be.nil
-          sheet.clicked_button.index.should.equal(@index)
-          sheet.clicked_button.title.should.equal(@button)
-          sheet.clicked_button.should.be.cancel
+          button.should.not.be.nil
+          button.index.should.equal(@index)
+          button.title.should.equal(@button)
+          button.should.be.cancel
           :did_dismiss
         end
       end

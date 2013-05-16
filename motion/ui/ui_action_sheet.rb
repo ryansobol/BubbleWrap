@@ -1,4 +1,4 @@
-module BW
+module BubbleWrap
   class UIActionSheet < ::UIActionSheet
     @callbacks = [
       :will_present,
@@ -64,10 +64,7 @@ module BW
 
     ###############################################################################################
 
-    attr_accessor :clicked_button
-    protected     :clicked_button=
-
-    class ClickedButton
+    class Button
       def initialize(sheet, index)
         @index       = index
         @title       = sheet.buttonTitleAtIndex(index)
@@ -97,33 +94,33 @@ module BW
     # UIActionSheetDelegate protocol ################################################################
 
     def willPresentActionSheet(sheet)
-      sheet.clicked_button = nil
-      handlers[:will_present].call(sheet) if handlers[:will_present]
+      return unless handlers[:will_present]
+      handlers[:will_present].call(sheet)
     end
 
     def didPresentActionSheet(sheet)
-      sheet.clicked_button = nil
-      handlers[:did_present].call(sheet) if handlers[:did_present]
+      return unless handlers[:did_present]
+      handlers[:did_present].call(sheet)
     end
 
     def actionSheetCancel(sheet)
-      sheet.clicked_button = nil
-      handlers[:on_system_cancel].call(sheet) if handlers[:on_system_cancel]
+      return unless handlers[:on_system_cancel]
+      handlers[:on_system_cancel].call(sheet)
     end
 
     def actionSheet(sheet, clickedButtonAtIndex:index)
-      sheet.clicked_button = ClickedButton.new(sheet, index)
-      handlers[:on_click].call(sheet) if handlers[:on_click]
+      return unless handlers[:on_click]
+      handlers[:on_click].call(sheet, Button.new(sheet, index))
     end
 
     def actionSheet(sheet, willDismissWithButtonIndex:index)
-      sheet.clicked_button = ClickedButton.new(sheet, index)
-      handlers[:will_dismiss].call(sheet) if handlers[:will_dismiss]
+      return unless handlers[:will_dismiss]
+      handlers[:will_dismiss].call(sheet, Button.new(sheet, index))
     end
 
     def actionSheet(sheet, didDismissWithButtonIndex:index)
-      sheet.clicked_button = ClickedButton.new(sheet, index)
-      handlers[:did_dismiss].call(sheet) if handlers[:did_dismiss]
+      return unless handlers[:did_dismiss]
+      handlers[:did_dismiss].call(sheet, Button.new(sheet, index))
     end
   end
 end

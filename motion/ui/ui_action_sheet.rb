@@ -36,6 +36,26 @@ module BubbleWrap
 
         sheet
       end
+
+      def automatic(options = {}, &block)
+        options = { buttons: "OK" }.merge!(options)
+        new(options.merge!(style: :automatic), &block)
+      end
+
+      def default(options = {}, &block)
+        options = { buttons: "OK" }.merge!(options)
+        new(options.merge!(style: :default), &block)
+      end
+
+      def black_translucent(options = {}, &block)
+        options = { buttons: "OK" }.merge!(options)
+        new(options.merge!(style: :black_translucent), &block)
+      end
+
+      def black_opaque(options = {}, &block)
+        options = { buttons: "OK" }.merge!(options)
+        new(options.merge!(style: :black_opaque), &block)
+      end
     end
 
     def style
@@ -123,4 +143,11 @@ module BubbleWrap
       handlers[:did_dismiss].call(sheet, Button.new(sheet, index))
     end
   end
+
+  Constants.register(
+    UIActionSheetStyleAutomatic,
+    UIActionSheetStyleDefault,
+    UIActionSheetStyleBlackTranslucent,
+    UIActionSheetStyleBlackOpaque
+  )
 end

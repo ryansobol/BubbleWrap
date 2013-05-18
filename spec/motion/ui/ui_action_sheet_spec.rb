@@ -321,6 +321,132 @@ describe BW::UIActionSheet do
 
   #################################################################################################
 
+  describe ".default" do
+    describe "given no options" do
+      before do
+        @subject = BW::UIActionSheet.default
+      end
+
+      behaves_like "an instance with no options"
+
+      it "has the correct style" do
+        @subject.style.should.equal(UIActionSheetStyleDefault)
+      end
+
+      it "has the correct buttons" do
+        @subject.numberOfButtons.should.equal(1)
+        @subject.buttonTitleAtIndex(0).should.equal("OK")
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(-1)
+      end
+
+      it "has no on_click handler" do
+        @subject.on_click.should.be.nil
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given no options with a block" do
+      before do
+        @options = {}
+        @block   = -> { true }
+        @subject = BW::UIActionSheet.default(@options, &@block)
+      end
+
+      behaves_like "an instance with no options"
+
+      it "has the correct style" do
+        @subject.style.should.equal(UIActionSheetStyleDefault)
+      end
+
+      it "has the correct buttons" do
+        @subject.numberOfButtons.should.equal(1)
+        @subject.buttonTitleAtIndex(0).should.equal("OK")
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(-1)
+      end
+
+      it "has the correct on_click handler" do
+        @subject.on_click.should.equal(@block)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given a full set of options" do
+      before do
+        @options = {
+          :title                      => "title",
+          :style                      => :automatic,
+          :buttons                    => "button title",
+          :cancel_button_index        => 0,
+          :will_present               => -> { true },
+          :did_present                => -> { true },
+          :on_system_cancel           => -> { true },
+          :on_click                   => -> { true },
+          :will_dismiss               => -> { true },
+          :did_dismiss                => -> { true }
+        }
+        @subject = BW::UIActionSheet.default(@options)
+      end
+
+      behaves_like "an instance with a full set of options"
+
+      it "has the correct style" do
+        @subject.style.should.equal(UIActionSheetStyleDefault)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given options with multiple button titles" do
+      before do
+        @options = { buttons: ["first button", "second button"] }
+        @subject = BW::UIActionSheet.default(@options)
+      end
+
+      it "has the correct buttons" do
+        @subject.numberOfButtons.should.equal(2)
+        @subject.buttonTitleAtIndex(0).should.equal(@options[:buttons][0])
+        @subject.buttonTitleAtIndex(1).should.equal(@options[:buttons][1])
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given options with a cancel button index" do
+      before do
+        @options = { cancel_button_index: 0 }
+        @subject = BW::UIActionSheet.default(@options)
+      end
+
+      it "has the correct cancel button index" do
+        @subject.cancel_button_index.should.equal(0)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given options with both an on_click handler and a block" do
+      before do
+        @options = { on_click: -> { true }}
+        @block   = -> { true }
+        @subject = BW::UIActionSheet.default(@options, &@block)
+      end
+
+      it "has the correct on_click handler" do
+        @subject.on_click.should.equal(@options[:on_click])
+      end
+    end
+  end
+
+  #################################################################################################
+
   BW::UIActionSheet.callbacks.each do |callback|
     describe ".#{callback}" do
       before do

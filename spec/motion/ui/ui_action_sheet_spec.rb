@@ -51,9 +51,15 @@ shared "an instance with a full set of options" do
     @subject.cancel_button_index.should.equal(@options[:cancel_button_index])
   end
 
+  it "has the correct destructive button index" do
+    @subject.destructive_button_index.should.equal(@options[:destructive_button_index])
+  end
+
   it "has the correct buttons" do
-    @subject.numberOfButtons.should.equal(1)
-    @subject.buttonTitleAtIndex(0).should.equal(@options[:buttons])
+    @subject.numberOfButtons.should.equal(2)
+    @subject.buttonTitleAtIndex(0).should.equal(@options[:buttons][0])
+    @subject.buttonTitleAtIndex(1).should.equal(@options[:buttons][1])
+
   end
 
   it "has no will_present handler" do
@@ -104,6 +110,10 @@ describe BW::UIActionSheet do
         @subject.cancel_button_index.should.equal(-1)
       end
 
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(-1)
+      end
+
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
       end
@@ -132,6 +142,10 @@ describe BW::UIActionSheet do
         @subject.cancel_button_index.should.equal(-1)
       end
 
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(-1)
+      end
+
       it "has the correct on_click handler" do
         @subject.on_click.should.equal(@block)
       end
@@ -144,8 +158,9 @@ describe BW::UIActionSheet do
         @options = {
           :title                      => "title",
           :style                      => :default,
-          :buttons                    => "button title",
+          :buttons                    => ["cancel", "destroy"],
           :cancel_button_index        => 0,
+          :destructive_button_index   => 1,
           :will_present               => -> { true },
           :did_present                => -> { true },
           :on_system_cancel           => -> { true },
@@ -216,6 +231,10 @@ describe BW::UIActionSheet do
         @subject.cancel_button_index.should.equal(-1)
       end
 
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(-1)
+      end
+
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
       end
@@ -245,6 +264,10 @@ describe BW::UIActionSheet do
         @subject.cancel_button_index.should.equal(-1)
       end
 
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(-1)
+      end
+
       it "has the correct on_click handler" do
         @subject.on_click.should.equal(@block)
       end
@@ -257,8 +280,9 @@ describe BW::UIActionSheet do
         @options = {
           :title                      => "title",
           :style                      => :default,
-          :buttons                    => "button title",
+          :buttons                    => ["cancel", "destroy"],
           :cancel_button_index        => 0,
+          :destructive_button_index   => 1,
           :will_present               => -> { true },
           :did_present                => -> { true },
           :on_system_cancel           => -> { true },
@@ -301,6 +325,19 @@ describe BW::UIActionSheet do
 
       it "has the correct cancel button index" do
         @subject.cancel_button_index.should.equal(0)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given options with a destructive button index" do
+      before do
+        @options = { destructive_button_index: 0 }
+        @subject = BW::UIActionSheet.automatic(@options)
+      end
+
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(0)
       end
     end
 
@@ -342,6 +379,10 @@ describe BW::UIActionSheet do
         @subject.cancel_button_index.should.equal(-1)
       end
 
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(-1)
+      end
+
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
       end
@@ -371,6 +412,10 @@ describe BW::UIActionSheet do
         @subject.cancel_button_index.should.equal(-1)
       end
 
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(-1)
+      end
+
       it "has the correct on_click handler" do
         @subject.on_click.should.equal(@block)
       end
@@ -383,8 +428,9 @@ describe BW::UIActionSheet do
         @options = {
           :title                      => "title",
           :style                      => :automatic,
-          :buttons                    => "button title",
+          :buttons                    => ["cancel", "destroy"],
           :cancel_button_index        => 0,
+          :destructive_button_index   => 1,
           :will_present               => -> { true },
           :did_present                => -> { true },
           :on_system_cancel           => -> { true },
@@ -427,6 +473,19 @@ describe BW::UIActionSheet do
 
       it "has the correct cancel button index" do
         @subject.cancel_button_index.should.equal(0)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given options with a destructive button index" do
+      before do
+        @options = { destructive_button_index: 0 }
+        @subject = BW::UIActionSheet.default(@options)
+      end
+
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(0)
       end
     end
 
@@ -468,6 +527,10 @@ describe BW::UIActionSheet do
         @subject.cancel_button_index.should.equal(-1)
       end
 
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(-1)
+      end
+
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
       end
@@ -497,6 +560,10 @@ describe BW::UIActionSheet do
         @subject.cancel_button_index.should.equal(-1)
       end
 
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(-1)
+      end
+
       it "has the correct on_click handler" do
         @subject.on_click.should.equal(@block)
       end
@@ -509,8 +576,9 @@ describe BW::UIActionSheet do
         @options = {
           :title                      => "title",
           :style                      => :automatic,
-          :buttons                    => "button title",
+          :buttons                    => ["cancel", "destroy"],
           :cancel_button_index        => 0,
+          :destructive_button_index   => 1,
           :will_present               => -> { true },
           :did_present                => -> { true },
           :on_system_cancel           => -> { true },
@@ -553,6 +621,19 @@ describe BW::UIActionSheet do
 
       it "has the correct cancel button index" do
         @subject.cancel_button_index.should.equal(0)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given options with a destructive button index" do
+      before do
+        @options = { destructive_button_index: 0 }
+        @subject = BW::UIActionSheet.black_translucent(@options)
+      end
+
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(0)
       end
     end
 
@@ -594,6 +675,10 @@ describe BW::UIActionSheet do
         @subject.cancel_button_index.should.equal(-1)
       end
 
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(-1)
+      end
+
       it "has no on_click handler" do
         @subject.on_click.should.be.nil
       end
@@ -623,6 +708,10 @@ describe BW::UIActionSheet do
         @subject.cancel_button_index.should.equal(-1)
       end
 
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(-1)
+      end
+
       it "has the correct on_click handler" do
         @subject.on_click.should.equal(@block)
       end
@@ -635,8 +724,9 @@ describe BW::UIActionSheet do
         @options = {
           :title                      => "title",
           :style                      => :automatic,
-          :buttons                    => "button title",
+          :buttons                    => ["cancel", "destroy"],
           :cancel_button_index        => 0,
+          :destructive_button_index   => 1,
           :will_present               => -> { true },
           :did_present                => -> { true },
           :on_system_cancel           => -> { true },
@@ -679,6 +769,19 @@ describe BW::UIActionSheet do
 
       it "has the correct cancel button index" do
         @subject.cancel_button_index.should.equal(0)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given options with a destructive button index" do
+      before do
+        @options = { destructive_button_index: 0 }
+        @subject = BW::UIActionSheet.black_opaque(@options)
+      end
+
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(0)
       end
     end
 

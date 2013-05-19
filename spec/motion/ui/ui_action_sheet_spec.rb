@@ -836,7 +836,7 @@ describe BW::UIActionSheet do
     end
 
     describe "given no will_present handler" do
-      it "returns noting" do
+      it "returns nothing" do
         @subject.willPresentActionSheet(@subject).should.be.nil
       end
     end
@@ -865,7 +865,7 @@ describe BW::UIActionSheet do
     end
 
     describe "given no did_present handler" do
-      it "returns noting" do
+      it "returns nothing" do
         @subject.didPresentActionSheet(@subject).should.be.nil
       end
     end
@@ -894,7 +894,7 @@ describe BW::UIActionSheet do
     end
 
     describe "given no on_system_cancel handler" do
-      it "returns noting" do
+      it "returns nothing" do
         @subject.actionSheetCancel(@subject).should.be.nil
       end
     end
@@ -925,7 +925,7 @@ describe BW::UIActionSheet do
     end
 
     describe "given no on_click handler" do
-      it "returns noting" do
+      it "returns nothing" do
         @subject.actionSheet(@subject, clickedButtonAtIndex:@index).should.be.nil
       end
     end
@@ -940,6 +940,7 @@ describe BW::UIActionSheet do
           button.index.should.equal(@index)
           button.title.should.equal(@button)
           button.should.not.be.cancel
+          button.should.not.be.destructive
           :on_click
         end
       end
@@ -961,6 +962,29 @@ describe BW::UIActionSheet do
           button.index.should.equal(@index)
           button.title.should.equal(@button)
           button.should.be.cancel
+          button.should.not.be.destructive
+          :on_click
+        end
+      end
+
+      it "returns correctly" do
+        @subject.actionSheet(@subject, clickedButtonAtIndex:@index).should.equal(:on_click)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given an on_click handler with a destructive button index" do
+      before do
+        @subject.destructive_button_index = @index
+
+        @subject.on_click do |sheet, button|
+          sheet.should.equal(@subject)
+          button.should.not.be.nil
+          button.index.should.equal(@index)
+          button.title.should.equal(@button)
+          button.should.not.be.cancel
+          button.should.be.destructive
           :on_click
         end
       end
@@ -981,7 +1005,7 @@ describe BW::UIActionSheet do
     end
 
     describe "given no will_dismiss handler" do
-      it "returns noting" do
+      it "returns nothing" do
         @subject.actionSheet(@subject, willDismissWithButtonIndex:@index).should.be.nil
       end
     end
@@ -996,6 +1020,7 @@ describe BW::UIActionSheet do
           button.index.should.equal(@index)
           button.title.should.equal(@button)
           button.should.not.be.cancel
+          button.should.not.be.destructive
           :will_dismiss
         end
       end
@@ -1017,6 +1042,29 @@ describe BW::UIActionSheet do
           button.index.should.equal(@index)
           button.title.should.equal(@button)
           button.should.be.cancel
+          button.should.not.be.destructive
+          :will_dismiss
+        end
+      end
+
+      it "returns correctly" do
+        @subject.actionSheet(@subject, willDismissWithButtonIndex:@index).should.equal(:will_dismiss)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given a will_dismiss handler with a destructive button index" do
+      before do
+        @subject.destructive_button_index = @index
+
+        @subject.will_dismiss do |sheet, button|
+          sheet.should.equal(@subject)
+          button.should.not.be.nil
+          button.index.should.equal(@index)
+          button.title.should.equal(@button)
+          button.should.not.be.cancel
+          button.should.be.destructive
           :will_dismiss
         end
       end
@@ -1037,7 +1085,7 @@ describe BW::UIActionSheet do
     end
 
     describe "given no did_dismiss handler" do
-      it "returns noting" do
+      it "returns nothing" do
         @subject.actionSheet(@subject, didDismissWithButtonIndex:@index).should.be.nil
       end
     end
@@ -1052,6 +1100,7 @@ describe BW::UIActionSheet do
           button.index.should.equal(@index)
           button.title.should.equal(@button)
           button.should.not.be.cancel
+          button.should.not.be.destructive
           :did_dismiss
         end
       end
@@ -1073,6 +1122,29 @@ describe BW::UIActionSheet do
           button.index.should.equal(@index)
           button.title.should.equal(@button)
           button.should.be.cancel
+          button.should.not.be.destructive
+          :did_dismiss
+        end
+      end
+
+      it "returns correctly" do
+        @subject.actionSheet(@subject, didDismissWithButtonIndex:@index).should.equal(:did_dismiss)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given a did_dismiss handler with a destructive button index" do
+      before do
+        @subject.destructive_button_index = @index
+
+        @subject.did_dismiss do |sheet, button|
+          sheet.should.equal(@subject)
+          button.should.not.be.nil
+          button.index.should.equal(@index)
+          button.title.should.equal(@button)
+          button.should.not.be.cancel
+          button.should.be.destructive
           :did_dismiss
         end
       end

@@ -700,7 +700,7 @@ describe BW::UIActionSheet do
   #################################################################################################
 
   BW::UIActionSheet.callbacks.each do |callback|
-    describe ".#{callback}" do
+    describe "##{callback}" do
       before do
         @subject = BW::UIActionSheet.new
       end
@@ -794,6 +794,36 @@ describe BW::UIActionSheet do
 
       it "has the correct cancel button index" do
         @subject.cancel_button_index.should.equal(0)
+      end
+    end
+  end
+
+  #################################################################################################
+
+  describe "#destructive_button_index=" do
+    before do
+      @subject = BW::UIActionSheet.new
+    end
+
+    describe "given no destructive button index" do
+      before do
+        @subject.destructive_button_index = nil
+      end
+
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(-1)
+      end
+    end
+
+    ###############################################################################################
+
+    describe "given a destructive button index" do
+      before do
+        @subject.destructive_button_index = 0
+      end
+
+      it "has the correct destructive button index" do
+        @subject.destructive_button_index.should.equal(0)
       end
     end
   end
